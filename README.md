@@ -1,6 +1,7 @@
 # Healthcare Consumer Service
 
-A Python-based consumer service designed for the **Bharat Seva+** healthcare backend. This service listens to RabbitMQ queues, processes logs, appointments, medical records, and handles email notifications. Data is inserted into PostgreSQL and MongoDB databases.
+A Python-based consumer service designed for the **Bharat Seva+** healthcare backend. This service listens to RabbitMQ queues, processes logs, appointments, medical records, and handles email notifications.    
+Data is inserted into PostgreSQL and MongoDB databases.
 
 ---
 

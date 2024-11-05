@@ -1,5 +1,6 @@
 import pika
-from .consumers import consume_logs, consume_patient_records
+from .consumers import (consume_logs, consume_patient_records, 
+                        consume_appointments, consume_patient_logs)
 
 
 def start_consumer(rabbitmqconn):
@@ -22,6 +23,14 @@ def start_consumer(rabbitmqconn):
     # listen for patient_records created
     channel.queue_declare(queue="hip:patient_records", durable=False)
     channel.basic_consume(queue="hip:patient_records", on_message_callback=consume_patient_records)
+
+
+    channel.queue_declare(queue="appointments_queue", durable=True)
+    channel.basic_consume(queue="appointments_queue", on_message_callback=consume_appointments)
+
+    # for patient logs
+    channel.queue_declare(queue="patient_logs", durable=True)
+    channel.basic_consume(queue="patient_logs", on_message_callback=consume_patient_logs)
 
     print("[*] Waiting for messages. To exit, press CTRL+C")
     channel.start_consuming()
