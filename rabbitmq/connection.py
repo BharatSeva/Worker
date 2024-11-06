@@ -1,6 +1,7 @@
 import pika
-from .consumers import (consume_logs, consume_patient_records, 
-                        consume_appointments, consume_patient_logs)
+from .consumers import (consume_logs, patient_records, 
+                        consume_appointments,
+                        appointment_update)
 
 
 def start_consumer(rabbitmqconn):
@@ -17,20 +18,20 @@ def start_consumer(rabbitmqconn):
     channel.basic_qos(prefetch_count=1)
 
     # listen for hip:logs, first create queue and listen to it
-    channel.queue_declare(queue="hip:logs", durable=False)
-    channel.basic_consume(queue="hip:logs", on_message_callback=consume_logs)
+    channel.queue_declare(queue="logs", durable=False)
+    channel.basic_consume(queue="logs", on_message_callback=consume_logs)
     
     # listen for patient_records created
-    channel.queue_declare(queue="hip:patient_records", durable=False)
-    channel.basic_consume(queue="hip:patient_records", on_message_callback=consume_patient_records)
+    channel.queue_declare(queue="patient_records", durable=False)
+    channel.basic_consume(queue="patient_records", on_message_callback=patient_records)
 
 
     channel.queue_declare(queue="appointments_queue", durable=True)
     channel.basic_consume(queue="appointments_queue", on_message_callback=consume_appointments)
 
-    # for patient logs
-    channel.queue_declare(queue="patient_logs", durable=True)
-    channel.basic_consume(queue="patient_logs", on_message_callback=consume_patient_logs)
+    # this will take care of update_appointment
+    channel.queue_declare(queue="appointment_update", durable=False)
+    channel.basic_consume(queue="appointment_update", on_message_callback=appointment_update)
 
     print("[*] Waiting for messages. To exit, press CTRL+C")
     channel.start_consuming()
