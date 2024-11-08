@@ -1,4 +1,4 @@
-name: Deploy Worker to AzureVM
+name: Deploy to AzureVM
 
 on:
   workflow_dispatch:
@@ -24,5 +24,5 @@ jobs:
           cd /home/azureuser/server
           sudo rm -rf Worker
           git clone https://github.com/BharatSeva/Worker.git
-          sudo docker rm -f worker || true
+          sudo docker rm -f worker_service || true
           sudo docker-compose up -d --build

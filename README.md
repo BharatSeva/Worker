@@ -1,5 +1,5 @@
-# Healthcare Worker Service
 
+# Healthcare Worker Service  [![Deploy to AzureVM](https://github.com/BharatSeva/Worker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/BharatSeva/Worker/actions/workflows/deploy.yaml)  
 A robust **Python-based Worker Service** designed for the **Bharat Seva+** backend system. This service leverages message-driven architecture to handle events and data processing efficiently. It continuously listens to RabbitMQ queues, processes logs, appointments, and medical records, and manages email notifications. Processed data is stored in PostgreSQL and MongoDB, enabling structured and unstructured data handling for reliable service delivery.
 
 ---
