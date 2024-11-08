@@ -1,7 +1,10 @@
 import pymongo
-mongo_client = pymongo.MongoClient('mongodb://rootuser:rootuser@localhost:27017?authSource=admin')
+from dotenv import load_dotenv
+import os
+load_dotenv()
+MONGORURL = os.getenv("MONGODB_URL")
 
-
+mongo_client = pymongo.MongoClient(MONGORURL)
 def insert_mongodb(data, collection, db="db"):
     try:
         # Print logs in console

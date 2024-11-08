@@ -2,10 +2,17 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from .category import select_message
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
+SMTP_HOST=os.getenv("SMTP_HOST")
+SMTP_PORT=os.getenv("SMTP_PORT")
+SMTP_EMAIL=os.getenv("SMTP_EMAIL")
+SMTP_PASSWORD=os.getenv("SMTP_PASSWORD")
 
-sender_email = "#####" 
-sender_password = "######" 
+sender_email = SMTP_EMAIL 
+sender_password = SMTP_PASSWORD 
 
 def send_mail(data):
     mail = select_message(data)
