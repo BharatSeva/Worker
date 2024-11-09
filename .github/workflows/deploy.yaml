@@ -27,5 +27,5 @@ jobs:
           sudo docker rm -f worker_service || true
           sudo docker-compose up -d --build
 
-          # give permission to grafana and prometheus
-          sudo chmod -R 775 Worker/
+          # Give permission to grafana and prometheus
+          sudo chmod -R 777 Worker/
