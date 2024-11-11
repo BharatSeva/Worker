@@ -24,8 +24,12 @@ jobs:
           cd /home/azureuser/server
           sudo rm -rf Worker
           git clone https://github.com/BharatSeva/Worker.git
-          sudo docker rm -f worker_service || true
-          sudo docker-compose up -d --build
 
           # Give permission to grafana and prometheus
+          echo "Changing File Permission for Grafana and Prometheus"
           sudo chmod -R 777 Worker/
+          
+          sudo docker rm -f worker_service || true
+          sudo docker-compose up -d --build
+          
+          sudo docker exec -it nginx nginx -s reload
