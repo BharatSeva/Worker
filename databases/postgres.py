@@ -19,6 +19,55 @@ pg_connection = psycopg2.connect(
 )
 
 pg_cursor = pg_connection.cursor()
+
+# Insert into appointment
+def Insert_appointment_section(data):
+    try:
+        query = """
+            INSERT INTO appointments (status, appointment_time, department, fullname, health_id, appointment_date, healthcare_id, note, healthcare_name, created_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        """
+        values = (
+            data["status"],
+            data["appointment_time"],
+            data["department"],
+            data["fullname"],
+            data["health_id"],
+            data["appointment_date"],
+            data["healthcare_id"],
+            data["note"],
+            data["healthcare_name"],
+            data["created_at"],
+            data["updated_at"]
+        )
+        pg_cursor.execute(query, values)
+        pg_connection.commit()
+    except Exception as e:
+        print(f"PostgreSQL Error: {e}")
+        pg_connection.rollback()
+
+# Update the status of appointments...
+def Update_appointment_status(data):
+    try:
+        query = """
+            UPDATE appointments
+            SET status = %(status)s
+            WHERE id = %(id)s 
+            AND health_id = %(health_id)s 
+            AND healthcare_id = %(healthcare_id)s;
+        """
+        values = {
+            "status": data["status"],
+            "id": data["id"],
+            "health_id": data["health_id"],
+            "healthcare_id": data["healthcare_id"]
+        }
+        pg_cursor.execute(query, values)
+        pg_connection.commit()
+    except Exception as e:
+        print(f"PostgreSQL Error: {e}")
+        pg_connection.rollback()
+
 def counter_update_client_postgresql(category, health_id):
     try:        
         query = f"UPDATE client_stats SET {category} = {category} + 1 WHERE health_id = %s;"
@@ -38,7 +87,6 @@ def counter_update_healthcare_postgresql(category, healthcare_id):
     except Exception as e:
         print(f"PostgreSQL Error: {e}")
         pg_connection.rollback()
-
 
 # pg_cursor.close()
 # pg_connection.close()
